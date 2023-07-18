@@ -14,7 +14,7 @@ public class JukeAlertListener implements Listener {
 
 	@EventHandler
 	public void enter(PlayerHitSnitchEvent e) {
-		if (immune(e.getSnitch(), e.getPlayer())) {
+		if (!e.getSnitch().getActiveStatus() || immune(e.getSnitch(), e.getPlayer())) {
 			return;
 		}
 		KiraBukkitGatewayPlugin.getInstance().getRabbit().sendSnitchHit(e.getPlayer(), e.getSnitch().getLocation(),
@@ -24,7 +24,7 @@ public class JukeAlertListener implements Listener {
 
 	@EventHandler
 	public void login(PlayerLoginSnitchEvent e) {
-		if (immune(e.getSnitch(), e.getPlayer())) {
+		if (!e.getSnitch().getActiveStatus() || immune(e.getSnitch(), e.getPlayer())) {
 			return;
 		}
 		KiraBukkitGatewayPlugin.getInstance().getRabbit().sendSnitchHit(e.getPlayer(), e.getSnitch().getLocation(),
@@ -35,7 +35,7 @@ public class JukeAlertListener implements Listener {
 
 	@EventHandler
 	public void login(PlayerLogoutSnitchEvent e) {
-		if (immune(e.getSnitch(), e.getPlayer())) {
+		if (!e.getSnitch().getActiveStatus() || immune(e.getSnitch(), e.getPlayer())) {
 			return;
 		}
 		KiraBukkitGatewayPlugin.getInstance().getRabbit().sendSnitchHit(e.getPlayer(), e.getSnitch().getLocation(),
