@@ -1,6 +1,6 @@
 plugins {
-	id("net.civmc.civgradle")
 	id("io.papermc.paperweight.userdev")
+	id("com.github.johnrengelman.shadow")
 }
 
 dependencies {
