@@ -19,6 +19,8 @@ public class RabbitHandler {
 	private Connection conn;
 	private Channel incomingChannel;
 	private Channel outgoingChannel;
+
+	private Channel outgoingChannelV2;
 	private RabbitInputHandler inputProcessor;
 
 	public RabbitHandler(ConnectionFactory connFac, String incomingQueue, String outgoingQueue, Logger logger) {
@@ -34,8 +36,10 @@ public class RabbitHandler {
 			conn = connectionFactory.newConnection();
 			incomingChannel = conn.createChannel();
 			outgoingChannel = conn.createChannel();
+			outgoingChannelV2 = conn.createChannel();
 			incomingChannel.queueDeclare(incomingQueue, false, false, false, null);
 			outgoingChannel.queueDeclare(outgoingQueue, false, false, false, null);
+			outgoingChannelV2.queueDeclare("gateway-to-kira-v2", false, false, false, null);
 			return true;
 		} catch (IOException | TimeoutException e) {
 			logger.severe("Failed to setup rabbit connection: " + e.toString());
@@ -81,6 +85,16 @@ public class RabbitHandler {
 	public boolean sendMessage(String msg) {
 		try {
 			outgoingChannel.basicPublish("", outgoingQueue, null, msg.getBytes("UTF-8"));
+			return true;
+		} catch (IOException e) {
+			logger.severe("Failed to send rabbit message: " + e);
+			return false;
+		}
+	}
+
+	public boolean sendMessageV2(String msg) {
+		try {
+			outgoingChannelV2.basicPublish("", outgoingQueue, null, msg.getBytes("UTF-8"));
 			return true;
 		} catch (IOException e) {
 			logger.severe("Failed to send rabbit message: " + e);

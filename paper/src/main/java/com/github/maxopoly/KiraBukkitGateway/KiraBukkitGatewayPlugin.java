@@ -9,6 +9,7 @@ import com.github.maxopoly.KiraBukkitGateway.command.SyncDiscordChannelAccessCom
 import com.github.maxopoly.KiraBukkitGateway.impersonation.KiraLuckPermsWrapper;
 import com.github.maxopoly.KiraBukkitGateway.listener.CivChatListener;
 import com.github.maxopoly.KiraBukkitGateway.listener.JukeAlertListener;
+import com.github.maxopoly.KiraBukkitGateway.listener.PlayerListener;
 import com.github.maxopoly.KiraBukkitGateway.listener.SkynetListener;
 import com.github.maxopoly.KiraBukkitGateway.log.KiraLogAppender;
 import com.github.maxopoly.KiraBukkitGateway.rabbit.RabbitCommands;
@@ -18,6 +19,7 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.Logger;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import vg.civcraft.mc.civmodcore.ACivMod;
 import vg.civcraft.mc.civmodcore.commands.CommandManager;
 import vg.civcraft.mc.namelayer.GroupManager.PlayerType;
@@ -44,6 +46,7 @@ public class KiraBukkitGatewayPlugin extends ACivMod {
 		this.permsWrapper = new KiraLuckPermsWrapper();
 		getServer().getPluginManager().registerEvents(new CivChatListener(), this);
 		getServer().getPluginManager().registerEvents(new JukeAlertListener(), this);
+		getServer().getPluginManager().registerEvents(new PlayerListener(), this);
 		getServer().getPluginManager().registerEvents(new SkynetListener(), this);
 		getLogger().info("Successfully enabled " + getName());
 		commandManager = new CommandManager(this);

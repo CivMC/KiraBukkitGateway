@@ -151,6 +151,30 @@ public class RabbitCommands {
 		String payload = gson.toJson(json);
 		internal.sendMessage(payload);
 	}
+
+	public void sendPlayerUpdateLocation(Player player, Location location) {
+		JsonObject json = new JsonObject();
+		json.addProperty("name", player.getName());
+		json.addProperty("dimension", location.getWorld().getName());
+		json.addProperty("x", location.getBlockX());
+		json.addProperty("y", location.getBlockY());
+		json.addProperty("z", location.getBlockZ());
+
+		sendInternalV2("playerupdatelocation", json);
+	}
+
+	public void sendPlayerLogoff(Player player) {
+		JsonObject json = new JsonObject();
+		json.addProperty("name", player.getName());
+		sendInternalV2("playerlogoff", json);
+	}
+
+	private void sendInternalV2(String id, JsonObject json) {
+		json.addProperty("type", id);
+		Gson gson = new Gson();
+		String payload = gson.toJson(json);
+		internal.sendMessageV2(payload);
+	}
 	
 	private void nonNullArgs(Object ...objects) {
 		for(Object o: objects) {
